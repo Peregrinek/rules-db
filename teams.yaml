@@ -1,19 +1,24 @@
 payload:
     - DOMAIN-SUFFIX,lync.com
     - DOMAIN-SUFFIX,teams.microsoft.com
+    - DOMAIN-SUFFIX,teams.cloud.microsoft
     - DOMAIN-SUFFIX,keydelivery.mediaservices.windows.net
     - DOMAIN-SUFFIX,streaming.mediaservices.windows.net
     - DOMAIN-SUFFIX,users.storage.live.com
-    - DOMAIN-SUFFIX,secure.skypeassets.com
     - DOMAIN-SUFFIX,skype.com
-    - DOMAIN,mlccdnprod.azureedge.net
-    - DOMAIN,mlccdn.blob.core.windows.net
+    - DOMAIN,teams.cloud.microsoftteams.cloud.microsoft
+    - DOMAIN,teams.microsoft.com
     - DOMAIN,aka.ms
     - DOMAIN,adl.windows.com
+    - DOMAIN,join.secure.skypeassets.com
+    - DOMAIN,mlccdnprod.azureedge.net
     - DOMAIN,compass-ssl.microsoft.com
-    - IP-CIDR,13.107.64.0/18
     - IP-CIDR,52.112.0.0/14
-    - IP-CIDR,52.120.0.0/14
     - IP-CIDR,52.122.0.0/15
-    - IP-CIDR,52.238.119.141/32
-    - IP-CIDR,52.244.160.207/32
+    - IP-CIDR6,2603:1063::/38
+    - IP-CIDR6,2603:1027::/48
+    - IP-CIDR6,2603:1037::/48
+    - IP-CIDR6,2603:1047::/48
+    - IP-CIDR6,2603:1057::/48
+    - IP-CIDR6,2620:1ec:6::/48
+    - IP-CIDR6,2620:1ec:40::/42
