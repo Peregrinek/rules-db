@@ -16,3 +16,4 @@ payload:
     - DOMAIN-KEYWORD,notorious-prod
     - DOMAIN-SUFFIX,learnosity.com
     - DOMAIN-SUFFIX,z-library.sk
+    - DOMAIN-SUFFIX,cdn-zlib.sk
