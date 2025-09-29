@@ -1,0 +1,4 @@
+payload:
+    - IP-CIDR,0.0.0.0/32
+    - DST-PORT,49155
+    - DOMAIN-SUFFIX,antpcdn.com
