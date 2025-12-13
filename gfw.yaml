@@ -30,3 +30,4 @@ payload:
     - DOMAIN,smsacademy.moodlehub.com
     - DOMAIN-SUFFIX,jwplayer.com
     - DOMAIN-SUFFIX,youversionapi.com
+    - DOMAIN,cdn.oaistatic.com
