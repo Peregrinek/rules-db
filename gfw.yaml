@@ -31,3 +31,4 @@ payload:
     - DOMAIN-SUFFIX,jwplayer.com
     - DOMAIN-SUFFIX,youversionapi.com
     - DOMAIN,cdn.oaistatic.com
+    - DOMAIN-SUFFIX,wangyilibrary.org
