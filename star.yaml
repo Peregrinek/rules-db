@@ -4,3 +4,4 @@ payload:
     - DOMAIN-KEYWORD,debian
     - DOMAIN-KEYWORD,raspberrypi
     - DOMAIN-KEYWORD,docker
+    - DOMAIN-SUFFIX,postgresql.org
