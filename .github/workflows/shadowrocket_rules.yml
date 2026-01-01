@@ -25,7 +25,7 @@ jobs:
           set -e
 
           BASE_URL="https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite"
-          FILES=("cn.list") # FILES=("cn.list" "us.list")
+          FILES=("cn.list")
 
           for file in "${FILES[@]}"; do
             echo "Processing $file"
