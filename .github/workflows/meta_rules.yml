@@ -1,19 +1,17 @@
 name: Generate Meta Rules
 
 on:
-  workflow_run:
-    workflows: ["Distilling Microsoft 365 Endpoints"]
-    types:
-      - completed
+  schedule:
+    - cron: '5 0 * * *'
   workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  convert-to-yaml:
+  update-rules:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    
     steps:
       - name: Checkout meta branch
         uses: actions/checkout@v4
@@ -27,8 +25,8 @@ jobs:
 
       - name: Fetch and Convert
         run: |
-          FILES=("exchange" "skype" "sharepoint" "common")
-          BASE_URL="https://raw.githubusercontent.com/${{ github.repository }}/bin/ms365"
+          FILES=("ms365@exchange" "ms365@skype" "ms365@sharepoint" "ms365@common")
+          BASE_URL="https://raw.githubusercontent.com/${{ github.repository }}/bin"
           
           for name in "${FILES[@]}"; do
             echo "Converting $name.list to $name.yaml..."
