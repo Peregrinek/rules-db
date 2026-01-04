@@ -29,11 +29,9 @@ jobs:
           
           curl -s "https://endpoints.office.com/endpoints/worldwide?clientrequestid=b10c5ed1-bad1-445f-b386-b919946339a7" -o data.json
           
-          mkdir -p ms365
-          
           for area in "${SERVICE_LIST[@]}"; do
           
-            FILENAME="ms365/${area,,}.list"
+            FILENAME="ms365@${area,,}.list"
             
             echo "Processing $area -> $FILENAME"
             
@@ -49,7 +47,7 @@ jobs:
 
       - name: Commit and push if changed
         run: |
-          git add ms365/
+          git add *.list
           if [[ -n $(git status --porcelain) ]]; then
             git commit -m "chore: update ms365 lists $(date -u +'%Y-%m-%d %H:%M:%S') UTC"
             git push origin bin
