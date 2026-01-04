@@ -1,0 +1,53 @@
+name: Distilling Microsoft 365 Endpoints
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-rules:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout bin branch
+        uses: actions/checkout@v4
+        with:
+          ref: bin
+
+      - name: Set up Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Process Microsoft 365 Endpoints
+        run: |
+          SERVICE_LIST=("Exchange" "Skype" "SharePoint" "Common")
+          
+          curl -s "https://endpoints.office.com/endpoints/worldwide?clientrequestid=b10c5ed1-bad1-445f-b386-b919946339a7" -o data.json
+          
+          mkdir -p ms365
+          
+          for area in "${SERVICE_LIST[@]}"; do
+          
+            FILENAME="ms365/${area,,}.list"
+            
+            echo "Processing $area -> $FILENAME"
+            
+            jq -r '.[] | select(.serviceArea=="'$area'") | (.urls[]? // empty | sub("^\\*\\."; "+.")), (.ips[]? // empty)' data.json | sort -u > "$FILENAME"
+          done
+          
+          rm data.json
+
+      - name: Commit and push if changed
+        run: |
+          git add ms365/
+          if [[ -n $(git status --porcelain) ]]; then
+            git commit -m "chore: update ms365 lists $(date -u +'%Y-%m-%d %H:%M:%S') UTC"
+            git push origin bin
+          else
+            echo "No changes detected"
+          fi
