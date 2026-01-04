@@ -1,0 +1,56 @@
+name: Distilling wetest.vip variety CDN ips
+
+on:
+  schedule:
+    - cron: '*/20 * * * *'  # 修改为每20分钟运行一次
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-rules:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout cdn branch
+        uses: actions/checkout@v4
+        with:
+          ref: cdn  # 保持使用 cdn 分支
+
+      - name: Set up Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Fetch and Process IP Lists
+        run: |
+          # 定义需要抓取的厂商名
+          CDN_LIST=("cloudflare" "cloudfront")
+          
+          for provider in "${CDN_LIST[@]}"; do
+            echo "Processing $provider..."
+            
+            # 创建目录（如果不存在）
+            mkdir -p "$provider"
+            
+            # 获取并解析 IPv4
+            # 使用 -f 参数确保 curl 在 HTTP 404 等错误时返回非零状态码
+            curl -s -f "https://www.wetest.vip/api/cf2dns/get_${provider}_ip?key=o1zrmHAF&type=v4" \
+            | jq -r '.info | to_entries | .[].value[]?.address // empty' | sort -u > "$provider/v4.list"
+            
+            # 获取并解析 IPv6
+            curl -s -f "https://www.wetest.vip/api/cf2dns/get_${provider}_ip?key=o1zrmHAF&type=v6" \
+            | jq -r '.info | to_entries | .[].value[]?.address // empty' | sort -u > "$provider/v6.list"
+          done
+          
+      - name: Commit and push if changed
+        run: |
+          # 检查是否有文件变更
+          if [[ -n $(git status --porcelain) ]]; then
+            git add .
+            git commit -m "chore: update CDN IP lists $(date -u +'%Y-%m-%d %H:%M:%S') UTC"
+            git push origin cdn  # 确保推送到 cdn 分支
+          else
+            echo "No changes detected"
+          fi
