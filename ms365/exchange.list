@@ -2,6 +2,7 @@
 +.mx.microsoft
 +.outlook.com
 +.protection.outlook.com
+-autodiscover
 104.47.0.0/17
 13.107.128.0/22
 13.107.18.10/31
@@ -36,7 +37,6 @@
 52.100.0.0/14
 52.238.78.88/32
 52.96.0.0/14
-autodiscover.*.onmicrosoft.com
 outlook.cloud.microsoft
 outlook.office.com
 outlook.office365.com
