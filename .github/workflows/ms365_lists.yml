@@ -38,8 +38,12 @@ jobs:
             jq -r '.[] | select(.serviceArea=="'$area'") | (.urls[]? // empty | 
               if contains(".*.") then 
                 sub("^(?<a>[^.]+)\\.\\*\\..*"; "-\(.a)") 
-              else 
+              elif startswith("*.") then 
                 sub("^\\*\\."; "+.") 
+              elif startswith("*") then 
+                sub("^\\*"; "-") 
+              else 
+                . 
               end), (.ips[]? // empty)' data.json | sort -u > "$FILENAME"
           done
           
