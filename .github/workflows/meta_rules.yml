@@ -1,0 +1,73 @@
+name: Generate Meta Rules
+
+on:
+  workflow_run:
+    workflows: ["Distilling Microsoft 365 Endpoints"]
+    types:
+      - completed
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  convert-to-yaml:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Checkout meta branch
+        uses: actions/checkout@v4
+        with:
+          ref: meta
+
+      - name: Set up Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Fetch and Convert
+        run: |
+          FILES=("exchange" "skype" "sharepoint" "common")
+          BASE_URL="https://raw.githubusercontent.com/${{ github.repository }}/bin/ms365"
+          
+          for name in "${FILES[@]}"; do
+            echo "Converting $name.list to $name.yaml..."
+            
+            curl -s "$BASE_URL/$name.list" -o "temp.list"
+            
+            echo "payload:" > "$name.yaml"
+            
+            awk '
+            /^\+\./ {
+                print "  - DOMAIN-SUFFIX," substr($0, 3);
+                next;
+            }
+            /^-/ {
+                print "  - DOMAIN-KEYWORD," substr($0, 2);
+                next;
+            }
+            /:.*\/[0-9]+/ {
+                print "  - IP-CIDR6," $0;
+                next;
+            }
+            /\./ && /\// {
+                print "  - IP-CIDR," $0;
+                next;
+            }
+            $0 != "" {
+                print "  - DOMAIN," $0;
+            }
+            ' temp.list >> "$name.yaml"
+            
+            rm temp.list
+          done
+
+      - name: Commit and Push to meta branch
+        run: |
+          git add *.yaml
+          if [[ -n $(git status --porcelain) ]]; then
+            git commit -m "chore: update meta rules $(date -u +'%Y-%m-%d %H:%M:%S') UTC"
+            git push origin meta
+          else
+            echo "No changes in YAML files"
+          fi
