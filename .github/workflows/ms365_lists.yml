@@ -37,7 +37,12 @@ jobs:
             
             echo "Processing $area -> $FILENAME"
             
-            jq -r '.[] | select(.serviceArea=="'$area'") | (.urls[]? // empty | sub("^\\*\\."; "+.")), (.ips[]? // empty)' data.json | sort -u > "$FILENAME"
+            jq -r '.[] | select(.serviceArea=="'$area'") | (.urls[]? // empty | 
+              if contains(".*.") then 
+                sub("^(?<a>[^.]+)\\.\\*\\..*"; "-\(.a)") 
+              else 
+                sub("^\\*\\."; "+.") 
+              end), (.ips[]? // empty)' data.json | sort -u > "$FILENAME"
           done
           
           rm data.json
