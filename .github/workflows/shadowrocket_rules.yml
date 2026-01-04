@@ -65,7 +65,7 @@ jobs:
         run: |
           if git status --porcelain | grep .; then
             git add .
-            git commit -m "chore: update shadowrocket rule lists"
+            git commit -m "chore: update shadowrocket rule lists $(date -u +'%Y-%m-%d %H:%M:%S') UTC"
             git push origin shadowrocket
           else
             echo "No changes detected"
