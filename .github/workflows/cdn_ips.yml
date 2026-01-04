@@ -2,7 +2,7 @@ name: Distilling wetest.vip variety CDN ips
 
 on:
   schedule:
-    - cron: '*/20 * * * *'
+    - cron: '20 * * * *'
   workflow_dispatch:
 
 permissions:
