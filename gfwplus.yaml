@@ -2,13 +2,19 @@ payload:
   - DOMAIN-SUFFIX,blindsidenetworks.com
   - DOMAIN-SUFFIX,canvas-user-content.com
   - DOMAIN-SUFFIX,canvaslms.com
+  - DOMAIN-SUFFIX,cdn-zlib.sk
+  - DOMAIN-SUFFIX,cmcbiblereading.com
   - DOMAIN-SUFFIX,codecogs.com
+  - DOMAIN-SUFFIX,edhub.cc
+  - DOMAIN-SUFFIX,endao.co
   - DOMAIN-SUFFIX,gravatar.com
   - DOMAIN-SUFFIX,inscloudgate.net
   - DOMAIN-SUFFIX,instructure.com
   - DOMAIN-SUFFIX,instructuremedia.com
+  - DOMAIN-SUFFIX,learnosity.com
   - DOMAIN-SUFFIX,ncdn.ec
   - DOMAIN-SUFFIX,olehdtv.com
   - DOMAIN-SUFFIX,olelive.com
   - DOMAIN-SUFFIX,olevod.com
   - DOMAIN-SUFFIX,tgstat.com
+  - DOMAIN-SUFFIX,z-library.sk
