@@ -83,9 +83,15 @@ jobs:
         if: hashFiles('processed_rules.txt') != ''
         run: |
           git add gfwplus.list
-          git commit -m "Auto add rules via Issue #${{ github.event.issue.number }}"
-          git push origin bin
-
+          
+          if git diff --staged --quiet; then
+            echo "No changes to gfwplus.list, skipping commit."
+          else
+            echo "Changes detected, committing..."
+            git commit -m "Auto add rules via Issue #${{ github.event.issue.number }}"
+            git push origin bin
+          fi
+          
       - name: Feedback and Close Issue
         if: always()
         run: |
