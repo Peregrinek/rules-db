@@ -16,7 +16,7 @@ body:
     id: content
     attributes:
       label: Content
-      description: "填写域名或域名关键词"
-      placeholder: "例如: google.com 或 ads"
+      description: "填写域名或域名关键词，多个请用英文逗号 (,) 分隔"
+      placeholder: "e.g.: `google.com, youtube.com` or `ads, tracking`"
     validations:
       required: true
