@@ -23,3 +23,5 @@ payload:
   - DOMAIN-SUFFIX,wangyilibrary.org
   - DOMAIN-SUFFIX,wdbook.com
   - DOMAIN-SUFFIX,youversionapi.com
+  - DOMAIN-KEYWORD,instructure-uploads
+  - DOMAIN-KEYWORD,notorious-prod
