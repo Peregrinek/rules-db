@@ -3,12 +3,12 @@ payload:
   - DOMAIN-SUFFIX,canvas-user-content.com
   - DOMAIN-SUFFIX,canvaslms.com
   - DOMAIN-SUFFIX,cdn-zlib.sk
+  - DOMAIN-SUFFIX,cdn.oaistatic.com
   - DOMAIN-SUFFIX,cmcbiblereading.com
   - DOMAIN-SUFFIX,codecogs.com
   - DOMAIN-SUFFIX,ebible.app
   - DOMAIN-SUFFIX,edhub.cc
   - DOMAIN-SUFFIX,endao.co
-  - DOMAIN-SUFFIX,gemini.google.com
   - DOMAIN-SUFFIX,gravatar.com
   - DOMAIN-SUFFIX,inscloudgate.net
   - DOMAIN-SUFFIX,instructure.com
@@ -24,7 +24,9 @@ payload:
   - DOMAIN-SUFFIX,olevod.com
   - DOMAIN-SUFFIX,smsfudao.org
   - DOMAIN-SUFFIX,tgstat.com
+  - DOMAIN-SUFFIX,wangyilibrary.org
   - DOMAIN-SUFFIX,wdbook.com
+  - DOMAIN-SUFFIX,youversionapi.com
   - DOMAIN-SUFFIX,z-library.sk
   - DOMAIN-KEYWORD,instructure-uploads
   - DOMAIN-KEYWORD,notorious-prod
