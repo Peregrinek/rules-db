@@ -35,17 +35,22 @@ jobs:
           > processed_rules.txt
           
           for item in "${ADDR[@]}"; do
+          
             CLEAN_ITEM=$(echo "$item" | xargs)
             
             if [ -n "$CLEAN_ITEM" ]; then
+            
               if [[ "$TYPE" == *"Domain"* ]]; then
-                echo "+.$CLEAN_ITEM" >> processed_rules.txt
+              
+                DOMAIN=$(echo "$CLEAN_ITEM" | sed -e 's|^[^/]*//||' -e 's|/.*$||' -e 's|:.*$||')
+                echo "+.$DOMAIN" >> processed_rules.txt
+                
               elif [[ "$TYPE" == *"Keyword"* ]]; then
                 echo "-$CLEAN_ITEM" >> processed_rules.txt
               fi
             fi
           done
-          
+
           echo "rules<<EOF" >> $GITHUB_OUTPUT
           cat processed_rules.txt >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
