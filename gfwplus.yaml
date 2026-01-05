@@ -5,6 +5,7 @@ payload:
   - DOMAIN-SUFFIX,cdn-zlib.sk
   - DOMAIN-SUFFIX,cmcbiblereading.com
   - DOMAIN-SUFFIX,codecogs.com
+  - DOMAIN-SUFFIX,ebible.app
   - DOMAIN-SUFFIX,edhub.cc
   - DOMAIN-SUFFIX,endao.co
   - DOMAIN-SUFFIX,gravatar.com
@@ -13,8 +14,11 @@ payload:
   - DOMAIN-SUFFIX,instructuremedia.com
   - DOMAIN-SUFFIX,learnosity.com
   - DOMAIN-SUFFIX,ncdn.ec
+  - DOMAIN-SUFFIX,notion.so
+  - DOMAIN-SUFFIX,notionusercontent.com
   - DOMAIN-SUFFIX,olehdtv.com
   - DOMAIN-SUFFIX,olelive.com
   - DOMAIN-SUFFIX,olevod.com
   - DOMAIN-SUFFIX,tgstat.com
+  - DOMAIN-SUFFIX,wdbook.com
   - DOMAIN-SUFFIX,z-library.sk
