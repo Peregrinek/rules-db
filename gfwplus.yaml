@@ -1,4 +1,8 @@
 payload:
+  - DOMAIN-SUFFIX,canvas-user-content.com
+  - DOMAIN-SUFFIX,canvaslms.com
+  - DOMAIN-SUFFIX,ncdn.ec
   - DOMAIN-SUFFIX,olehdtv.com
   - DOMAIN-SUFFIX,olelive.com
   - DOMAIN-SUFFIX,olevod.com
+  - DOMAIN-SUFFIX,tgstat.com
