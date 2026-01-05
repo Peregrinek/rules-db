@@ -26,40 +26,54 @@ jobs:
         id: format
         run: |
           TYPE=$(echo "${{ github.event.issue.body }}" | grep -A 2 "Rule Type" | tail -n 1)
-          CONTENT=$(echo "${{ github.event.issue.body }}" | grep -A 2 "Content" | tail -n 1 | xargs)
+          RAW_CONTENT=$(echo "${{ github.event.issue.body }}" | grep -A 2 "Content" | tail -n 1)
 
           echo "Detected Type: $TYPE"
-          echo "Detected Content: $CONTENT"
           
-          if [[ "$TYPE" == *"Domain"* ]]; then
-            FINAL_RULE="+.$CONTENT"
-          elif [[ "$TYPE" == *"Keyword"* ]]; then
-            FINAL_RULE="-$CONTENT"
-          else
-            echo "Unknown Type"
-            exit 1
-          fi
+          IFS=',' read -ra ADDR <<< "$RAW_CONTENT"
           
-          echo "final_rule=$FINAL_RULE" >> $GITHUB_OUTPUT
-          echo "clean_content=$CONTENT" >> $GITHUB_OUTPUT
+          > processed_rules.txt
+          
+          for item in "${ADDR[@]}"; do
+            CLEAN_ITEM=$(echo "$item" | xargs)
+            
+            if [ -n "$CLEAN_ITEM" ]; then
+              if [[ "$TYPE" == *"Domain"* ]]; then
+                echo "+.$CLEAN_ITEM" >> processed_rules.txt
+              elif [[ "$TYPE" == *"Keyword"* ]]; then
+                echo "-$CLEAN_ITEM" >> processed_rules.txt
+              fi
+            fi
+          done
+          
+          echo "rules<<EOF" >> $GITHUB_OUTPUT
+          cat processed_rules.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+          echo "clean_content=$RAW_CONTENT" >> $GITHUB_OUTPUT
 
       - name: Update gfwplus.list
         run: |
-          echo "${{ steps.format.outputs.final_rule }}" >> gfwplus.list
+          touch gfwplus.list
+
+          echo "${{ steps.format.outputs.rules }}" >> gfwplus.list
           
           sort -u gfwplus.list -o gfwplus.list
           
-          echo "Updated gfwplus.list with: ${{ steps.format.outputs.final_rule }}"
+          echo "Updated gfwplus.list with new rules."
 
       - name: Commit and Push
         run: |
           git add gfwplus.list
-          git commit -m "Auto add ${{ steps.format.outputs.clean_content }} via Issue #${{ github.event.issue.number }}"
-          git push origin bin
+          
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto add ${{ steps.format.outputs.clean_content }} via Issue #${{ github.event.issue.number }}" && git push origin bin)
 
       - name: Feedback and Close Issue
         run: |
-          gh issue comment ${{ github.event.issue.number }} --body "🚀 Rule added to \`gfwplus.list\` in branch \`bin\`: \`${{ steps.format.outputs.final_rule }}\`"
+          gh issue comment ${{ github.event.issue.number }} --body "🚀 Rules added to \`gfwplus.list\` in branch \`bin\`:
+          \`\`\`text
+          ${{ steps.format.outputs.rules }}
+          \`\`\`"
           gh issue close ${{ github.event.issue.number }} --reason "completed"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
