@@ -27,58 +27,81 @@ jobs:
         run: |
           TYPE=$(echo "${{ github.event.issue.body }}" | grep -A 2 "Rule Type" | tail -n 1)
           RAW_CONTENT=$(echo "${{ github.event.issue.body }}" | grep -A 2 "Content" | tail -n 1)
+          
+          GFW_REMOTE_URL="https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/gfw.list"
+          curl -sL "$GFW_REMOTE_URL" -o remote_gfw_raw.list
+          
+          sed 's/^\+\.//' remote_gfw_raw.list > remote_domains_only.txt
 
           echo "Detected Type: $TYPE"
           
           IFS=',' read -ra ADDR <<< "$RAW_CONTENT"
           
           > processed_rules.txt
+          > skipped_rules.txt
           
           for item in "${ADDR[@]}"; do
-          
             CLEAN_ITEM=$(echo "$item" | xargs)
             
             if [ -n "$CLEAN_ITEM" ]; then
-            
               if [[ "$TYPE" == *"Domain"* ]]; then
               
                 DOMAIN=$(echo "$CLEAN_ITEM" | sed -e 's|^[^/]*//||' -e 's|/.*$||' -e 's|:.*$||')
-                echo "+.$DOMAIN" >> processed_rules.txt
+                
+                if grep -Fxq "$DOMAIN" remote_domains_only.txt; then
+                  echo "Skipping $DOMAIN: Already exists in remote GFW list."
+                  echo "$DOMAIN (Discovered)" >> skipped_rules.txt
+                else
+                  echo "+.$DOMAIN" >> processed_rules.txt
+                fi
                 
               elif [[ "$TYPE" == *"Keyword"* ]]; then
                 echo "-$CLEAN_ITEM" >> processed_rules.txt
               fi
             fi
           done
-
-          echo "rules<<EOF" >> $GITHUB_OUTPUT
-          cat processed_rules.txt >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          
+          {
+            echo "rules<<EOF"
+            cat processed_rules.txt
+            echo "EOF"
+            echo "skipped<<EOF"
+            cat skipped_rules.txt
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
 
           echo "clean_content=$RAW_CONTENT" >> $GITHUB_OUTPUT
-
+          
       - name: Update gfwplus.list
+        if: hashFiles('processed_rules.txt') != ''
         run: |
           touch gfwplus.list
-
-          echo "${{ steps.format.outputs.rules }}" >> gfwplus.list
-          
+          cat processed_rules.txt >> gfwplus.list
           sort -u gfwplus.list -o gfwplus.list
-          
           echo "Updated gfwplus.list with new rules."
 
       - name: Commit and Push
         run: |
           git add gfwplus.list
-          
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto add ${{ steps.format.outputs.clean_content }} via Issue #${{ github.event.issue.number }}" && git push origin bin)
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto add rules via Issue #${{ github.event.issue.number }}" && git push origin bin)
 
       - name: Feedback and Close Issue
         run: |
-          gh issue comment ${{ github.event.issue.number }} --body "🚀 Rules added to \`gfwplus.list\` in branch \`bin\`:
-          \`\`\`text
-          ${{ steps.format.outputs.rules }}
-          \`\`\`"
+          COMMENT="🚀 **Report on processing results:**\n\n"
+          
+          if [ -s processed_rules.txt ]; then
+            COMMENT+="\n✅ **Added to \`gfwplus.list\`:**\n\`\`\`text\n$(cat processed_rules.txt)\n\`\`\`"
+          fi
+          
+          if [ -s skipped_rules.txt ]; then
+            COMMENT+="\n⚠️ **Skipped (duplicate item):**\n\`\`\`text\n$(cat skipped_rules.txt)\n\`\`\`"
+          fi
+          
+          if [ ! -s processed_rules.txt ] && [ ! -s skipped_rules.txt ]; then
+            COMMENT="❌ No valid content or format errors detected."
+          fi
+
+          gh issue comment ${{ github.event.issue.number }} --body "$COMMENT"
           gh issue close ${{ github.event.issue.number }} --reason "completed"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
