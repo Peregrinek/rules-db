@@ -8,6 +8,7 @@ payload:
   - DOMAIN-SUFFIX,ebible.app
   - DOMAIN-SUFFIX,edhub.cc
   - DOMAIN-SUFFIX,endao.co
+  - DOMAIN-SUFFIX,gemini.google.com
   - DOMAIN-SUFFIX,gravatar.com
   - DOMAIN-SUFFIX,inscloudgate.net
   - DOMAIN-SUFFIX,instructure.com
