@@ -33,7 +33,7 @@ jobs:
 
       - name: Fetch and Convert
         run: |
-          FILES=("ms365@exchange" "ms365@skype" "ms365@sharepoint" "ms365@common")
+          FILES=("ms365@exchange" "ms365@skype" "ms365@sharepoint" "ms365@common" “gfwplus”)
           BASE_URL="https://raw.githubusercontent.com/${{ github.repository }}/bin"
           
           for name in "${FILES[@]}"; do
