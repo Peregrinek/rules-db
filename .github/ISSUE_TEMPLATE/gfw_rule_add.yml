@@ -12,7 +12,6 @@ body:
         - Keyword (域名关键字)
     validations:
       required: true
-
 - type: input
     id: content
     attributes:
