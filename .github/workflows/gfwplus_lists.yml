@@ -30,11 +30,9 @@ jobs:
           
           GFW_REMOTE_URL="https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/gfw.list"
           curl -sL "$GFW_REMOTE_URL" -o remote_gfw_raw.list
-          
           sed 's/^\+\.//' remote_gfw_raw.list > remote_domains_only.txt
 
           echo "Detected Type: $TYPE"
-          
           IFS=',' read -ra ADDR <<< "$RAW_CONTENT"
           
           > processed_rules.txt
@@ -42,22 +40,37 @@ jobs:
           
           for item in "${ADDR[@]}"; do
             CLEAN_ITEM=$(echo "$item" | xargs)
+            [ -z "$CLEAN_ITEM" ] && continue
+
+            if [[ "$TYPE" == *"Domain"* ]]; then
             
-            if [ -n "$CLEAN_ITEM" ]; then
-              if [[ "$TYPE" == *"Domain"* ]]; then
+              DOMAIN=$(echo "$CLEAN_ITEM" | sed -e 's|^[^/]*//||' -e 's|/.*$||' -e 's|:.*$||')
               
-                DOMAIN=$(echo "$CLEAN_ITEM" | sed -e 's|^[^/]*//||' -e 's|/.*$||' -e 's|:.*$||')
-                
-                if grep -Fxq "$DOMAIN" remote_domains_only.txt; then
-                  echo "Skipping $DOMAIN: Already exists in remote GFW list."
-                  echo "$DOMAIN (Discovered)" >> skipped_rules.txt
-                else
-                  echo "+.$DOMAIN" >> processed_rules.txt
+              IS_SKIPPED=false
+              TEMP_DOMAIN="$DOMAIN"
+              
+              while [[ "$TEMP_DOMAIN" == *"."* ]]; do
+                if grep -Fxq "$TEMP_DOMAIN" remote_domains_only.txt; then
+                  IS_SKIPPED=true
+                  break
                 fi
                 
-              elif [[ "$TYPE" == *"Keyword"* ]]; then
-                echo "-$CLEAN_ITEM" >> processed_rules.txt
+                TEMP_DOMAIN=$(echo "$TEMP_DOMAIN" | cut -d'.' -f2-)
+              done
+              
+              if [ "$IS_SKIPPED" = false ] && grep -Fxq "$TEMP_DOMAIN" remote_domains_only.txt; then
+                IS_SKIPPED=true
               fi
+
+              if [ "$IS_SKIPPED" = true ]; then
+                echo "Skipping $DOMAIN: Covered by remote list (as $TEMP_DOMAIN or higher)."
+                echo "$DOMAIN (Discovered)" >> skipped_rules.txt
+              else
+                echo "+.$DOMAIN" >> processed_rules.txt
+              fi
+                
+            elif [[ "$TYPE" == *"Keyword"* ]]; then
+              echo "-$CLEAN_ITEM" >> processed_rules.txt
             fi
           done
           
@@ -69,7 +82,6 @@ jobs:
             cat skipped_rules.txt
             echo "EOF"
           } >> $GITHUB_OUTPUT
-
           echo "clean_content=$RAW_CONTENT" >> $GITHUB_OUTPUT
           
       - name: Update gfwplus.list
