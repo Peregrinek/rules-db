@@ -1,5 +1,5 @@
 name: GFW Additional Rules
-about: 添加访问受限域名
+description: "添加访问受限域名"
 title: "[Request] Add new restricted Domain"
 labels: gfwplus
 body:
