@@ -18,6 +18,7 @@ payload:
   - DOMAIN-SUFFIX,ncdn.ec
   - DOMAIN-SUFFIX,notion.so
   - DOMAIN-SUFFIX,notionusercontent.com
+  - DOMAIN-SUFFIX,postgresql.org
   - DOMAIN-SUFFIX,smsfudao.org
   - DOMAIN-SUFFIX,tgstat.com
   - DOMAIN-SUFFIX,wangyilibrary.org
