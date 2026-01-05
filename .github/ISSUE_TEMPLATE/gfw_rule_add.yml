@@ -17,6 +17,7 @@ body:
     id: content
     attributes:
       label: Content
+      description: "填写域名或域名关键词"
       placeholder: "例如: google.com 或 ads"
     validations:
       required: true
