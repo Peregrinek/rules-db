@@ -13,12 +13,14 @@ payload:
   - DOMAIN-SUFFIX,instructure.com
   - DOMAIN-SUFFIX,instructuremedia.com
   - DOMAIN-SUFFIX,learnosity.com
+  - DOMAIN-SUFFIX,moodlehub.com
   - DOMAIN-SUFFIX,ncdn.ec
   - DOMAIN-SUFFIX,notion.so
   - DOMAIN-SUFFIX,notionusercontent.com
   - DOMAIN-SUFFIX,olehdtv.com
   - DOMAIN-SUFFIX,olelive.com
   - DOMAIN-SUFFIX,olevod.com
+  - DOMAIN-SUFFIX,smsfudao.org
   - DOMAIN-SUFFIX,tgstat.com
   - DOMAIN-SUFFIX,wdbook.com
   - DOMAIN-SUFFIX,z-library.sk
