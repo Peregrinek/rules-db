@@ -1,6 +1,12 @@
 payload:
+  - DOMAIN-SUFFIX,blindsidenetworks.com
   - DOMAIN-SUFFIX,canvas-user-content.com
   - DOMAIN-SUFFIX,canvaslms.com
+  - DOMAIN-SUFFIX,codecogs.com
+  - DOMAIN-SUFFIX,gravatar.com
+  - DOMAIN-SUFFIX,inscloudgate.net
+  - DOMAIN-SUFFIX,instructure.com
+  - DOMAIN-SUFFIX,instructuremedia.com
   - DOMAIN-SUFFIX,ncdn.ec
   - DOMAIN-SUFFIX,olehdtv.com
   - DOMAIN-SUFFIX,olelive.com
