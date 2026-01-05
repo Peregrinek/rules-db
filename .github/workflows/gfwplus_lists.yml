@@ -43,7 +43,6 @@ jobs:
             [ -z "$CLEAN_ITEM" ] && continue
 
             if [[ "$TYPE" == *"Domain"* ]]; then
-            
               DOMAIN=$(echo "$CLEAN_ITEM" | sed -e 's|^[^/]*//||' -e 's|/.*$||' -e 's|:.*$||')
               
               IS_SKIPPED=false
@@ -54,7 +53,6 @@ jobs:
                   IS_SKIPPED=true
                   break
                 fi
-                
                 TEMP_DOMAIN=$(echo "$TEMP_DOMAIN" | cut -d'.' -f2-)
               done
               
@@ -63,57 +61,58 @@ jobs:
               fi
 
               if [ "$IS_SKIPPED" = true ]; then
-                echo "Skipping $DOMAIN: Covered by remote list (as $TEMP_DOMAIN or higher)."
-                echo "$DOMAIN (Discovered)" >> skipped_rules.txt
+                echo "$DOMAIN (Upper Domain Discovered)" >> skipped_rules.txt
               else
                 echo "+.$DOMAIN" >> processed_rules.txt
               fi
-                
             elif [[ "$TYPE" == *"Keyword"* ]]; then
               echo "-$CLEAN_ITEM" >> processed_rules.txt
             fi
           done
           
-          {
-            echo "rules<<EOF"
-            cat processed_rules.txt
-            echo "EOF"
-            echo "skipped<<EOF"
-            cat skipped_rules.txt
-            echo "EOF"
-          } >> $GITHUB_OUTPUT
           echo "clean_content=$RAW_CONTENT" >> $GITHUB_OUTPUT
-          
+
       - name: Update gfwplus.list
         if: hashFiles('processed_rules.txt') != ''
         run: |
           touch gfwplus.list
           cat processed_rules.txt >> gfwplus.list
           sort -u gfwplus.list -o gfwplus.list
-          echo "Updated gfwplus.list with new rules."
 
       - name: Commit and Push
+        if: hashFiles('processed_rules.txt') != ''
         run: |
           git add gfwplus.list
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto add rules via Issue #${{ github.event.issue.number }}" && git push origin bin)
+          git commit -m "Auto add rules via Issue #${{ github.event.issue.number }}"
+          git push origin bin
 
       - name: Feedback and Close Issue
+        if: always()
         run: |
-          COMMENT="🚀 **Report on processing results:**\n\n"
+          echo "🚀 **Report on processing results:**" > comment.md
+          echo "" >> comment.md
           
           if [ -s processed_rules.txt ]; then
-            COMMENT+="\n✅ **Added to \`gfwplus.list\`:**\n\`\`\`text\n$(cat processed_rules.txt)\n\`\`\`"
+            echo "✅ **Added to \`gfwplus.list\`:**" >> comment.md
+            echo "\`\`\`text" >> comment.md
+            cat processed_rules.txt >> comment.md
+            echo "\`\`\`" >> comment.md
+            echo "" >> comment.md
           fi
           
           if [ -s skipped_rules.txt ]; then
-            COMMENT+="\n⚠️ **Skipped (duplicate item):**\n\`\`\`text\n$(cat skipped_rules.txt)\n\`\`\`"
+            echo "⚠️ **Skipped (duplicate item):**" >> comment.md
+            echo "\`\`\`text" >> comment.md
+            cat skipped_rules.txt >> comment.md
+            echo "\`\`\`" >> comment.md
+            echo "" >> comment.md
           fi
           
           if [ ! -s processed_rules.txt ] && [ ! -s skipped_rules.txt ]; then
-            COMMENT="❌ No valid content or format errors detected."
+            echo "❌ No valid content or format errors detected." >> comment.md
           fi
 
-          gh issue comment ${{ github.event.issue.number }} --body "$COMMENT"
+          gh issue comment ${{ github.event.issue.number }} --body-file comment.md
           gh issue close ${{ github.event.issue.number }} --reason "completed"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
