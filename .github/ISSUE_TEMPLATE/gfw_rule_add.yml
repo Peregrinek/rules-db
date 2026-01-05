@@ -12,3 +12,11 @@ body:
         - Keyword (域名关键字)
     validations:
       required: true
+
+- type: input
+    id: content
+    attributes:
+      label: Content
+      placeholder: "例如: google.com 或 ads"
+    validations:
+      required: true
