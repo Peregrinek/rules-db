@@ -1,4 +1,5 @@
 name: Auto Update GFW List
+
 on:
   issues:
     types: [opened]
