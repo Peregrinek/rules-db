@@ -14,6 +14,7 @@ payload:
   - DOMAIN-SUFFIX,inscloudgate.net
   - DOMAIN-SUFFIX,instructure.com
   - DOMAIN-SUFFIX,instructuremedia.com
+  - DOMAIN-SUFFIX,jibecloud.net
   - DOMAIN-SUFFIX,jwplayer.com
   - DOMAIN-SUFFIX,learnosity.com
   - DOMAIN-SUFFIX,moodlehub.com
