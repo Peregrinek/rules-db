@@ -1,5 +1,6 @@
 payload:
   - DOMAIN-SUFFIX,blindsidenetworks.com
+  - DOMAIN-SUFFIX,brew.sh
   - DOMAIN-SUFFIX,canvas-user-content.com
   - DOMAIN-SUFFIX,canvaslms.com
   - DOMAIN-SUFFIX,cdn-zlib.sk
