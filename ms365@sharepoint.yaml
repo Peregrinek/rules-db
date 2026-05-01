@@ -1,6 +1,4 @@
 payload:
-  - DOMAIN-SUFFIX,search.production.emea.trafficmanager.net
-  - DOMAIN-SUFFIX,search.production.us.trafficmanager.net
   - DOMAIN-SUFFIX,sharepoint.com
   - DOMAIN-SUFFIX,sharepointonline.com
   - DOMAIN-SUFFIX,svc.ms
