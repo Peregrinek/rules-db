@@ -31,6 +31,10 @@ payload:
   - DOMAIN-SUFFIX,tgstat.com
   - DOMAIN-SUFFIX,wangyilibrary.org
   - DOMAIN-SUFFIX,wdbook.com
+  - DOMAIN-SUFFIX,wedevotebible.com
+  - DOMAIN-SUFFIX,windy-wings.xyz
+  - DOMAIN-SUFFIX,xiaoen.app
+  - DOMAIN-SUFFIX,yetell.com
   - DOMAIN-SUFFIX,youversionapi.com
   - DOMAIN-KEYWORD,instructure-uploads
   - DOMAIN-KEYWORD,notorious-prod
