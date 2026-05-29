@@ -169,7 +169,6 @@ payload:
   - DOMAIN,office15client.microsoft.com
   - DOMAIN,officeapps.live.com
   - DOMAIN,officecdn.microsoft.com
-  - DOMAIN,officecdn.microsoft.com.edgesuite.net
   - DOMAIN,officeclient.microsoft.com
   - DOMAIN,officepreviewredir.microsoft.com
   - DOMAIN,officeredir.microsoft.com
