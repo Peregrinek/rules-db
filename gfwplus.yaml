@@ -5,6 +5,7 @@ payload:
   - DOMAIN-SUFFIX,canvaslms.com
   - DOMAIN-SUFFIX,cdn-zlib.sk
   - DOMAIN-SUFFIX,cdn.oaistatic.com
+  - DOMAIN-SUFFIX,chinesefamily.org
   - DOMAIN-SUFFIX,cmcbiblereading.com
   - DOMAIN-SUFFIX,codecogs.com
   - DOMAIN-SUFFIX,ctfassets.net
