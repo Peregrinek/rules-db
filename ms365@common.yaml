@@ -193,7 +193,6 @@ payload:
   - DOMAIN,tse1.mm.bing.net
   - DOMAIN,wus-www.sway-cdn.com
   - DOMAIN,wus-www.sway-extensions.com
-  - DOMAIN,www.acompli.com
   - DOMAIN,www.bing.com
   - DOMAIN,www.digicert.com
   - DOMAIN,www.microsoft.com
