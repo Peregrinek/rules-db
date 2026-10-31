@@ -26,7 +26,6 @@
 +.msftauth.net
 +.msftauthimages.net
 +.msftidentity.com
-+.msidentity.com
 +.msocdn.com
 +.o365weve.com
 +.office.com
@@ -108,10 +107,8 @@ amp.azure.net
 api.passwordreset.microsoftonline.com
 apis.live.net
 appsforoffice.microsoft.com
-assets.onestore.ms
 auth.gfx.ms
 autologon.microsoftazuread-sso.com
-becws.microsoftonline.com
 c.bing.com
 c.bing.net
 c.live.com
@@ -143,7 +140,6 @@ go.microsoft.com
 graph.microsoft.com
 graph.windows.net
 informationprotection.hosting.portal.azure.net
-isrg.trustid.ocsp.identrust.com
 login-us.microsoftonline.com
 login.live.com
 login.microsoft.com
@@ -161,7 +157,6 @@ o15.officeredir.microsoft.com
 ocos-office365-s2s.msedge.net
 ocsp.digicert.com
 ocsp.globalsign.com
-ocsp.msocsp.com
 ocsp2.globalsign.com
 ocspx.digicert.com
 office.live.com
@@ -177,16 +172,13 @@ otelrules.azureedge.net
 partnerservices.getmicrosoftkey.com
 passwordreset.microsoftonline.com
 platform.linkedin.com
-prod.msocdn.com
 protection.office.com
-provisioningapi.microsoftonline.com
 purview.microsoft.com
 r.office.microsoft.com
 secure.globalsign.com
 security.microsoft.com
 shellprod.msocdn.com
 signup.live.com
-support.microsoft.com
 sway.com
 technet.microsoft.com
 tse1.mm.bing.net
