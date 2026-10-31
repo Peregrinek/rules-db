@@ -16,7 +16,5 @@ payload:
   - IP-CIDR,52.122.0.0/15
   - DOMAIN,adl.windows.com
   - DOMAIN,aka.ms
-  - DOMAIN,join.secure.skypeassets.com
-  - DOMAIN,mlccdnprod.azureedge.net
   - DOMAIN,teams.cloud.microsoft
   - DOMAIN,teams.microsoft.com
